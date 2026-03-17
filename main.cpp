@@ -2,7 +2,7 @@
 #include <iostream>
 
 auto main() -> int {
-    ChemicalElement elem = ChemicalElement("Carbon", "C", 12.0116, 6, 14, 2);
+    ChemicalElement elem("Carbon", "C", 12.0116, 6, 14, 2);
     std::cout << "Element:" << std::endl;
     std::cout << elem.getName() << std::endl;
     std::cout << elem.getSymbol() << std::endl;
