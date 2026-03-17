@@ -14,6 +14,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-add_executable(chemical_element main.cpp ChemicalElement.cpp)
-add_executable(chemical_element_test tests/ChemicalElementUnitTest.cpp ChemicalElement.cpp)
+add_executable(chemical_element main.cpp src/ChemicalElement.cpp)
+add_executable(chemical_element_test tests/ChemicalElementUnitTest.cpp src/ChemicalElement.cpp)
 target_link_libraries(chemical_element_test GTest::gtest_main)
