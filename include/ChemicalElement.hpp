@@ -5,7 +5,6 @@ using namespace std;
 
 class ChemicalElement
 {
-private:
     string name;
     string symbol;
     double mass;
@@ -19,6 +18,7 @@ public:
     auto electrons() -> int;
     auto electronShells() -> int;
     auto valentialElectrons() -> int;
+
     auto getName() -> string;
     auto getSymbol() -> string;
     auto getMass() -> double;

@@ -1,5 +1,6 @@
 #include <string>
-#include "ChemicalElement.hpp"
+#include <stdexcept>
+#include "../include/ChemicalElement.hpp"
 
 using namespace std;
 
@@ -9,19 +10,19 @@ ChemicalElement::ChemicalElement(
 {
     if (mass < 0 || mass > 300)
     {
-        throw string("Invalid mass.");
+        throw invalid_argument("Invalid mass.");
     }
     if (atomicNumber < 1 || atomicNumber > 118)
     {
-        throw string("Invalid atomic number.");
+        throw invalid_argument("Invalid atomic number.");
     }
     if (groupNumber < 1 || groupNumber > 18)
     {
-        throw string("Invalid group number.");
+        throw invalid_argument("Invalid group number.");
     }
     if (periodNumber < 1 || periodNumber > 7)
     {
-        throw string("Invalid period number.");
+        throw invalid_argument("Invalid period number.");
     }
 }
 
