@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 project (
-    polynomial
+    warehouse_analyzer
     VERSION 1
     LANGUAGES CXX
 )
@@ -18,15 +18,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-add_executable(polynomial_test)
-target_sources(polynomial_test
+add_executable(warehouse_analyzer_test)
+target_sources(warehouse_analyzer_test
   PRIVATE
-  polynomial_tests.cpp
+  warehouse_analyzer_tests.cpp
 )
-target_link_libraries(polynomial_test PRIVATE
+target_link_libraries(warehouse_analyzer_test PRIVATE
   GTest::gtest_main
-  ${CMAKE_SOURCE_DIR}/polynomial.cpp
+  ${CMAKE_SOURCE_DIR}/warehouse_analyzer.cpp
 )
 
 include(GoogleTest)
-gtest_discover_tests(polynomial_test)
+gtest_discover_tests(warehouse_analyzer_test)
