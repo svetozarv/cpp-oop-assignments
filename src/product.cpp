@@ -1,4 +1,4 @@
-#include "warehouse_analyzer.hpp"
+#include "../include/warehouse_analyzer.hpp"
 
 // --------- Product class implementation ---------
 Product::Product(const std::string &name, double price)

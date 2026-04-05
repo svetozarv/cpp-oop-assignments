@@ -1,7 +1,8 @@
-#include "warehouse_analyzer.hpp"
+#include "../include/warehouse_analyzer.hpp"
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <numeric>
 
 double WarehouseAnalyzer::calculateTotalValue(const Warehouse &warehouse) {
     std::vector<Product> products = warehouse.getProducts();
@@ -31,5 +32,12 @@ std::vector<Product> WarehouseAnalyzer::getTheMostExpensiveHalf(const Warehouse 
 }
 
 void WarehouseAnalyzer::increasePricesOfSelected(const Warehouse &warehouse, int treshold, double percentage) {
-    
+    std::vector<Product> products = warehouse.getProducts();
+    auto items_it = std::find_if(products.begin(), products.end(), [treshold](const Product& product) {
+        return product.getQuantity() < treshold;
+    });
+    std::transform(items_it, products.end(), items_it, [percentage](Product& product) {
+        double new_price = product.getPrice() * (1 + percentage / 100);
+        return Product(product.getName(), new_price, product.getQuantity());
+    });
 }

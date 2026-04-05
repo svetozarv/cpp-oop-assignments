@@ -1,4 +1,4 @@
-#include "warehouse_analyzer.hpp"
+#include "../include/warehouse_analyzer.hpp"
 
 // --------- Warehouse class implementation ---------
 Warehouse::Warehouse()
