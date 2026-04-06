@@ -16,3 +16,7 @@ void Warehouse::addProduct(const Product &product) {
 const std::vector<Product> &Warehouse::getProducts() const {
     return products_;
 }
+
+std::vector<Product> &Warehouse::getProducts() {
+    return products_;
+}

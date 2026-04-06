@@ -24,3 +24,7 @@ int Product::getQuantity() const {
 void Product::setQuantity(int quantity) {
     quantity_ = quantity;
 }
+
+bool Product::operator<(const Product &other) const {
+    return price_ < other.price_;
+}

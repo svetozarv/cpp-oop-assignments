@@ -3,14 +3,22 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include <ranges>
+
+std::vector<double> WarehouseAnalyzer::getProductPrices(const Warehouse &warehouse) {
+    auto prices = warehouse.getProducts()
+    | std::ranges::views::transform([](const Product& product) { return product.getPrice(); });
+    return std::vector<double>(prices.begin(), prices.end());
+}
+
+std::vector<double> WarehouseAnalyzer::getProductValues(const Warehouse &warehouse) {
+    auto values = warehouse.getProducts()
+    | std::ranges::views::transform([](const Product& product) { return product.getPrice() * product.getQuantity(); });
+    return std::vector<double>(values.begin(), values.end());
+}
 
 double WarehouseAnalyzer::calculateTotalValue(const Warehouse &warehouse) {
-    std::vector<Product> products = warehouse.getProducts();
-    std::vector<double> values;
-
-    std::transform(products.begin(), products.end(), std::back_inserter(values), [](const Product& product) {
-        return product.getPrice() * product.getQuantity();
-    });
+    std::vector<double> values = getProductValues(warehouse);
     return std::accumulate(values.begin(), values.end(), 0.0);
 }
 
@@ -22,21 +30,21 @@ Product WarehouseAnalyzer::getTheMostExpensiveOne(const Warehouse &warehouse) {
 }
 
 std::vector<Product> WarehouseAnalyzer::getTheMostExpensiveHalf(const Warehouse &warehouse) {
-    auto mean = calculateTotalValue(warehouse) / warehouse.getProducts().size();
-    std::vector<Product> products = warehouse.getProducts();
-    std::vector<Product> result;
-    std::copy_if(products.begin(), products.end(), std::back_inserter(result), [mean](const Product& product) {
+    auto prices = getProductPrices(warehouse);
+    double mean = std::accumulate(prices.begin(), prices.end(), 0.0) / prices.size();
+
+    std::vector<Product> result{};
+    std::copy_if(warehouse.getProducts().begin(), warehouse.getProducts().end(), std::back_inserter(result), [mean](const Product& product) {
         return product.getPrice() > mean;
     });
     return result;
 }
 
-void WarehouseAnalyzer::increasePricesOfSelected(const Warehouse &warehouse, int treshold, double percentage) {
-    std::vector<Product> products = warehouse.getProducts();
-    auto items_it = std::find_if(products.begin(), products.end(), [treshold](const Product& product) {
-        return product.getQuantity() < treshold;
-    });
-    std::transform(items_it, products.end(), items_it, [percentage](Product& product) {
+void WarehouseAnalyzer::increasePricesOfProductsBelowMedian(Warehouse &warehouse, double percentage) {
+    std::vector<Product> &products = warehouse.getProducts();
+    auto median = products.begin() + products.size() / 2;
+    std::nth_element(products.begin(), median, products.end());
+    std::transform(products.begin(), median, products.begin(), [percentage](const Product& product) {
         double new_price = product.getPrice() * (1 + percentage / 100);
         return Product(product.getName(), new_price, product.getQuantity());
     });
