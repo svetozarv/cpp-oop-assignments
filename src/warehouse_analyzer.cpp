@@ -1,4 +1,5 @@
 #include "../include/warehouse_analyzer.hpp"
+#include "../include/warehouse.hpp"
 #include <string>
 #include <vector>
 #include <algorithm>

@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "./include/warehouse_analyzer.hpp"
+#include "./include/warehouse.hpp"
 
 
 TEST (warehouse_analyzer, calculateTotalValue) {

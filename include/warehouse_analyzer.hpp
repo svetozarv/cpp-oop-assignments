@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "warehouse.hpp"
 #include "product.hpp"
+// #include "warehouse.hpp"
+
+class Warehouse;    // Forward declaration
 
 class WarehouseAnalyzer {
     static std::vector<double> getProductPrices(const Warehouse& warehouse);
