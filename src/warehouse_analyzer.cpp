@@ -6,6 +6,7 @@
 #include <numeric>
 #include <ranges>
 
+// Ignore quantities, just prices
 std::vector<double> WarehouseAnalyzer::getProductPrices(const Warehouse &warehouse) {
     auto prices = warehouse.getProducts()
     | std::ranges::views::transform([](const Product& product) { return product.getPrice(); });
@@ -25,11 +26,10 @@ double WarehouseAnalyzer::calculateTotalValue(const Warehouse &warehouse) {
 
 Product WarehouseAnalyzer::getTheMostExpensiveOne(const Warehouse &warehouse) {
     std::vector<Product> products = warehouse.getProducts();
-    return *std::max_element(products.begin(), products.end(), [](const Product& a, const Product& b) {
-        return a.getPrice() < b.getPrice();
-    });
+    return *std::max_element(products.begin(), products.end());
 }
 
+// Get all the products which prices(not values) are above the mean price
 std::vector<Product> WarehouseAnalyzer::getTheMostExpensiveHalf(const Warehouse &warehouse) {
     auto prices = getProductPrices(warehouse);
     double mean = std::accumulate(prices.begin(), prices.end(), 0.0) / prices.size();
@@ -41,6 +41,7 @@ std::vector<Product> WarehouseAnalyzer::getTheMostExpensiveHalf(const Warehouse 
     return result;
 }
 
+// Increase the prices of all products which prices are below the median price by a given percentage
 void WarehouseAnalyzer::increasePricesOfProductsBelowMedian(Warehouse &warehouse, double percentage) {
     std::vector<Product> &products = warehouse.getProducts();
     auto median = products.begin() + products.size() / 2;
