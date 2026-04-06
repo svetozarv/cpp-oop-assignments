@@ -15,6 +15,7 @@ class Product {
     double getPrice() const;
     int getQuantity() const;
     void setQuantity(int quantity);
+    bool operator<(const Product& other) const;
 };
 
 class Warehouse {
@@ -25,12 +26,15 @@ class Warehouse {
     Warehouse(const std::vector<Product>& products);
     void addProduct(const Product& product);
     const std::vector<Product>& getProducts() const;
+    std::vector<Product> &getProducts();
 };
 
 class WarehouseAnalyzer {
+    static std::vector<double> getProductPrices(const Warehouse& warehouse);
+    static std::vector<double> getProductValues(const Warehouse& warehouse);
   public:
     static double calculateTotalValue(const Warehouse& warehouse);
     static Product getTheMostExpensiveOne(const Warehouse& warehouse);
     static std::vector<Product> getTheMostExpensiveHalf(const Warehouse& warehouse);
-    void increasePricesOfSelected(const Warehouse& warehouse, int treshold, double percentage);
+    static void increasePricesOfProductsBelowMedian(Warehouse& warehouse, double percentage);
 };
