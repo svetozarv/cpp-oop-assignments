@@ -21,11 +21,13 @@ FetchContent_MakeAvailable(googletest)
 add_executable(warehouse_analyzer_test)
 target_sources(warehouse_analyzer_test
   PRIVATE
-  warehouse_analyzer_tests.cpp
+  ${CMAKE_SOURCE_DIR}/warehouse_analyzer_test.cpp
+  ${CMAKE_SOURCE_DIR}/src/warehouse_analyzer.cpp
+  ${CMAKE_SOURCE_DIR}/src/warehouse.cpp
+  ${CMAKE_SOURCE_DIR}/src/product.cpp
 )
 target_link_libraries(warehouse_analyzer_test PRIVATE
   GTest::gtest_main
-  ${CMAKE_SOURCE_DIR}/warehouse_analyzer.cpp
 )
 
 include(GoogleTest)
