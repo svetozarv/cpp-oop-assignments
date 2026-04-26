@@ -16,17 +16,20 @@ class Polynomial {
     Polynomial(Polynomial&& other) noexcept = default;              // 4. Move Constructor
     Polynomial& operator=(Polynomial&& other) noexcept = default;   // 5. Move Assignment
 
-    std::vector<double> GetCoefficients() const noexcept;
-    const std::vector<double>& GetCoefficientsRef() const noexcept;
+    // std::vector<double> GetCoefficients() const noexcept;        // redundant
+    const std::vector<double>& coefficients() const noexcept;
 
     double compute(double x) const;
     int degree() const;
 
-    Polynomial operator+(Polynomial const& other) const;
-    Polynomial operator-(Polynomial const& other) const;
-    Polynomial operator*(Polynomial const& other) const;
     bool operator==(Polynomial const& other) const;
+    bool operator+=(Polynomial const& other) const;
+    bool operator-=(Polynomial const& other) const;
+    bool operator*=(Polynomial const& other) const;
+  };
 
-    friend std::ostream& operator<< (std::ostream &os, const Polynomial &p);
-    // friend std::istream& operator>> (std::istream &is, Polynomial &p);
-};
+Polynomial operator+(Polynomial const& other);
+Polynomial operator-(Polynomial const& other);
+Polynomial operator*(Polynomial const& other);
+std::ostream& operator<< (std::ostream &os, const Polynomial &p);
+// std::istream& operator>> (std::istream &is, Polynomial &p);
