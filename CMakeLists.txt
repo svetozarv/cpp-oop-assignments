@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 project (
-    polynomial
+    polynomial_AST
     VERSION 1
     LANGUAGES CXX
 )
@@ -18,15 +18,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-add_executable(polynomial_test)
-target_sources(polynomial_test
+add_executable(polynomial_AST_test)
+target_sources(polynomial_AST_test
   PRIVATE
-  polynomial_tests.cpp
+  polynomial_AST_test.cpp
 )
-target_link_libraries(polynomial_test PRIVATE
+target_link_libraries(polynomial_AST_test PRIVATE
   GTest::gtest_main
-  ${CMAKE_SOURCE_DIR}/polynomial.cpp
+  ${CMAKE_SOURCE_DIR}/polynomial_AST.cpp
 )
 
 include(GoogleTest)
-gtest_discover_tests(polynomial_test)
+gtest_discover_tests(polynomial_AST_test)
