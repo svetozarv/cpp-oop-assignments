@@ -6,58 +6,7 @@
 #include <stdexcept>
 #include <format>
 
-enum class TokenType {
-    X,
-    NUMBER,
-    EXPONENTIATION,
-    MULTIPLICATION,
-    ADDITION,
-};
 
-struct Token {
-    TokenType type;
-    char value;
-};
-
-
-
-class Lexer {
-    std::string expression_;
-    std::vector<Token> tokens_;
-    int curr_ = 0;
-
-    void createToken(TokenType type, char val) {
-        Token token;
-        token.type = type;
-        token.value = val;
-        tokens_.push_back(token);
-    }
-public:
-    Lexer(std::string expression) : expression_(expression) {}
-
-    std::vector<Token> tokenize() {
-        while (curr_ < expression_.length()) {
-            char symbol = expression_.at(curr_++);
-            if (symbol == ' ') { continue; }
-            else if (symbol == 'x') { createToken(TokenType::X, 'x'); }
-            else if (symbol == '*') { createToken(TokenType::MULTIPLICATION, '*'); }
-            else if (symbol == '^') { createToken(TokenType::EXPONENTIATION, '^'); }
-            else if (symbol == '+') { createToken(TokenType::ADDITION, '+'); }
-            else if (48 <= symbol && symbol <= 57) { createToken(TokenType::NUMBER, symbol); }
-            else { throw std::runtime_error(std::format("Invalid input on token {}", symbol)); }
-            // else if (48 <= symbol && symbol <= 57) {
-            //     int start_digit = --curr_;
-            //     while (48 <= symbol && symbol <= 57) { ++curr_; }
-
-            //     createToken(TokenType::NUMBER, '+');
-            // }
-        }
-        return tokens_;
-    };
-};
-
-
-// x^3 + 2*x^2 + 4*x + 3
 class Parser {
     std::vector<Token> tokens_;
     int curr_ = 0;
@@ -67,6 +16,7 @@ class Parser {
 public:
     Parser(std::vector<Token> tokens) : tokens_(tokens) {}
 
+    // Handles a, x
     std::unique_ptr<ASTNode> parseDigit() {
         Token token = peek();
         switch (token.type) {
@@ -82,6 +32,7 @@ public:
     }
 
     // Monomial has digits (or variables) on the left AND on the right (ex. x^3)
+    // Handles x^n, x, a
     std::unique_ptr<ASTNode> parseMonomial() {
         std::unique_ptr<ASTNode> left = parseDigit();
         while (peek().type == TokenType::EXPONENTIATION) {
@@ -93,6 +44,7 @@ public:
     }
 
     // Term has a digit (term) on the left and a monomial on the right (ex. 2*x^3)
+    // Handles a*x^n, a*x, x^n, x, a
     std::unique_ptr<ASTNode> parseTerm() {
         if (peek().type == TokenType::X) { return parseMonomial(); }
 
