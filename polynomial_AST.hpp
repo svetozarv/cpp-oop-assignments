@@ -1,7 +1,9 @@
+#pragma once
 #include <vector>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <cmath>
 
 // składają się wyłącznie z sumy jednomianów, np.: x^3 + 2*x^2 + 4*x + 3
 // * każdy jednomian ma jedną z postaci: a*x^n, a*x, x^n, x, a (stała)
@@ -26,7 +28,7 @@ class LiteralNode : public ASTNode {
     double val_;
 public:
     LiteralNode(double value) : val_(value) {}
-    double evaluate(double x) const { return val_; }
+    double evaluate(double x) const override { return val_; }
     NodeType getKind() const override { return NodeType::LITERAL_NODE; }
 };
 
@@ -35,7 +37,7 @@ class VariableNode : public ASTNode {
 public:
     VariableNode() {}
     NodeType getKind() const override { return NodeType::VARIABLE_NODE; }
-    double evaluate(double x) const { return x; }
+    double evaluate(double x) const override { return x; }
 };
 
 
@@ -45,8 +47,18 @@ class BinaryOPNode : public ASTNode {
     std::unique_ptr<ASTNode> right_;
 public:
     BinaryOPNode(std::unique_ptr<ASTNode> arg1, char op, std::unique_ptr<ASTNode> arg2) : operator_(op), left_(std::move(arg1)), right_(std::move(arg2)) {}
+    double evaluate(double x) const override {
+        double left = getLeft()->evaluate(x);
+        double right = getRight()->evaluate(x);
+        switch (operator_) {
+            case '^': return std::pow(left, right);
+            case '*': return left * right;
+            case '+': return left + right;
+            default: throw std::runtime_error("BinaryOpNode contains unsupported operation.");
+        }
+    }
     NodeType getKind() const override { return NodeType::BINARY_OP_NODE; }
-    std::vector<ASTNode*> getChildren() const { return {left_.get(), right_.get()}; }
+    std::vector<ASTNode*> getChildren() const override { return {left_.get(), right_.get()}; }
 
     // --- BinaryNode specific methods ---
     char getOperator() const { return operator_; }
