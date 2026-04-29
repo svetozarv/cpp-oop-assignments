@@ -18,15 +18,23 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-add_executable(polynomial_AST_test)
-target_sources(polynomial_AST_test
-  PRIVATE
-  polynomial_AST_test.cpp
+add_library(polynomial_core
+    src/lexer.cpp
+    src/parser.cpp
+    src/polynomial_AST.cpp
 )
-target_link_libraries(polynomial_AST_test PRIVATE
-  GTest::gtest_main
-  ${CMAKE_SOURCE_DIR}/polynomial_AST.cpp
-)
+target_include_directories(polynomial_core PUBLIC include)
+
+add_executable(lexer_test tests/lexer_test.cpp)
+target_link_libraries(lexer_test PRIVATE polynomial_core GTest::gtest_main)
+
+add_executable(parser_test tests/parser_test.cpp)
+target_link_libraries(parser_test PRIVATE polynomial_core GTest::gtest_main)
+
+add_executable(polynomial_AST_test tests/polynomial_AST_test.cpp)
+target_link_libraries(polynomial_AST_test PRIVATE polynomial_core GTest::gtest_main)
 
 include(GoogleTest)
+gtest_discover_tests(lexer_test)
+gtest_discover_tests(parser_test)
 gtest_discover_tests(polynomial_AST_test)
