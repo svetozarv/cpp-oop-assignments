@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../src/parser.cpp"
-#include <iostream>
+#include "../include/parser.hpp"
+#include "../include/lexer.hpp"
 
 TEST(ParserTest, ParsesSimpleExpression) {
     Lexer lexer("2*x^3 + 3*x^2 + 4*x + 5");

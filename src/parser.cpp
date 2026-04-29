@@ -1,9 +1,10 @@
 #include "../include/polynomial_AST.hpp"
+#include "../include/token.hpp"
+#include "../include/parser.hpp"
 #include <vector>
 #include <memory>
 #include <string>
 #include <stdexcept>
-#include "../include/token.hpp"
 
 
 Token Parser::peek() const { return tokens_.at(curr_); }

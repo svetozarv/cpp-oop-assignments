@@ -1,9 +1,9 @@
 #pragma once
 #include "../include/token.hpp"
+#include "../include/polynomial_AST.hpp"
 #include <vector>
 #include <memory>
 
-class ASTNode;
 
 class Parser {
     std::vector<Token> tokens_;
