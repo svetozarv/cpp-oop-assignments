@@ -23,16 +23,18 @@ std::vector<Token> Lexer::tokenize() {
         else if (symbol == '*') { createToken(TokenType::MULTIPLICATION, '*'); }
         else if (symbol == '^') { createToken(TokenType::EXPONENTIATION, '^'); }
         else if (symbol == '+') { createToken(TokenType::ADDITION, '+'); }
-        else if (48 <= symbol && symbol <= 57) { createToken(TokenType::NUMBER, symbol - '0'); }
+        else if (48 <= symbol && symbol <= 57) {
+            createToken(TokenType::NUMBER, symbol - '0');
+            while (curr_ < expression_.length()) {
+                symbol = expression_.at(curr_);
+                if (48 <= symbol && symbol <= 57) {
+                    tokens_.back().value = tokens_.back().value * 10 + (symbol - '0');
+                    ++curr_;
+                } else { break; }
+            }
+        }
         else { throw std::runtime_error(std::format("Invalid input on token {}", symbol)); }
-        // TODO: add numbers handling
-        // else if (48 <= symbol && symbol <= 57) {
-        //     int start_digit = --curr_;
-        //     while (48 <= symbol && symbol <= 57) { ++curr_; }
-        //     createToken(TokenType::NUMBER, '+');
-        // }
     }
     createToken(TokenType::END, '\0');
     return tokens_;
 };
-
