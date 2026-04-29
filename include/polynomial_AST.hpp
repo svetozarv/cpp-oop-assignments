@@ -1,8 +1,10 @@
 #pragma once
+#include "../include/lexer.hpp"
+#include "../include/parser.hpp"
 #include <vector>
-#include <iostream>
 #include <memory>
 #include <string>
+#include <stdexcept>
 #include <cmath>
 
 // składają się wyłącznie z sumy jednomianów, np.: x^3 + 2*x^2 + 4*x + 3
@@ -66,3 +68,11 @@ public:
     ASTNode* getRight() const { return right_.get(); }
 };
 
+
+class PolynomialAST {
+    std::unique_ptr<ASTNode> root_;
+public:
+    PolynomialAST(std::string expression);
+    ASTNode* root();
+    double evaluate(double x);
+};
