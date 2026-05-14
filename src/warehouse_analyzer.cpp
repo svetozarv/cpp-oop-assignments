@@ -9,13 +9,13 @@
 // Ignore quantities, just prices
 std::vector<double> WarehouseAnalyzer::getProductPrices(const Warehouse &warehouse) {
     auto prices = warehouse.getProducts()
-    | std::ranges::views::transform([](const Product& product) { return product.getPrice(); });
+    | std::views::transform([](const Product& product) { return product.getPrice(); });
     return std::vector<double>(prices.begin(), prices.end());
 }
 
 std::vector<double> WarehouseAnalyzer::getProductValues(const Warehouse &warehouse) {
     auto values = warehouse.getProducts()
-    | std::ranges::views::transform([](const Product& product) { return product.getPrice() * product.getQuantity(); });
+    | std::views::transform([](const Product& product) { return product.getPrice() * product.getQuantity(); });
     return std::vector<double>(values.begin(), values.end());
 }
 
