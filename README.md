@@ -1,6 +1,4 @@
 # Abstract Syntax Tree for Polynomial Expressions
-
-## Overview
 This project implements a mathematical expression evaluator utilizing the **Composite Design Pattern** in modern C++. It allows for the dynamic construction and evaluation of complex mathematical expressions represented as a hierarchical tree structure.
 
 ## Architecture
