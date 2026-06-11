@@ -25,6 +25,9 @@ add_library(polynomial_core
 )
 target_include_directories(polynomial_core PUBLIC include)
 
+add_executable(main main.cpp)
+target_link_libraries(main PRIVATE polynomial_core)
+
 add_executable(lexer_test tests/lexer_test.cpp)
 target_link_libraries(lexer_test PRIVATE polynomial_core GTest::gtest_main)
 
